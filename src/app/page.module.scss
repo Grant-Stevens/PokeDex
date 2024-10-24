@@ -1,0 +1,57 @@
+$gray-rgb: rgb(0, 0, 0);
+$gray-alpha-200: rgba($gray-rgb, 0.08);
+$gray-alpha-100: rgba($gray-rgb, 0.05);
+
+$button-primary-hover: #383838;
+$button-secondary-hover: #f2f2f2;
+
+.page {
+  display: flex;
+  align-items: center;
+  justify-items: center;
+  min-height: 100svh;
+  padding: 80px;
+  font-family: var(--font-geist-sans);
+}
+
+@media (prefers-color-scheme: dark) {
+  .page {
+    $gray-rgb: rgb(255, 255, 255);
+    $gray-alpha-200: rgba($gray-rgb, 0.145);
+    $gray-alpha-100: rgba($gray-rgb, 0.06);
+
+    $button-primary-hover: #ccc;
+    $button-secondary-hover: #1a1a1a;
+  }
+}
+
+.main {
+  display: grid;
+  grid-template-columns: 50% 50%;
+  gap: 0;
+  height: 800px;
+  width: 1000px;
+  background-color: red;
+}
+
+.pokedex--page {
+  border: 1px solid white;
+  height: 100%;
+
+  &:first {
+    border-right-width: 0;
+  }
+}
+
+/* Enable hover only on non-touch devices */
+@media (hover: hover) and (pointer: fine) {
+}
+
+@media (max-width: 600px) {
+}
+
+@media (prefers-color-scheme: dark) {
+  .logo {
+    // filter: invert();
+  }
+}
