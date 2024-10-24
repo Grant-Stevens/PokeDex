@@ -1,0 +1,18 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.header {
+  background: var(--background);
+  display: flex;
+  flex-direction: row;
+  height: 82px;
+  position: relative;
+}
+
+.content {
+  background: red;
+  flex-grow: 1;
+}

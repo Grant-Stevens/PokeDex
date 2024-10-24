@@ -1,0 +1,63 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.header {
+  position: relative;
+  background-color: darkred;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 0 8px;
+  z-index: 0;
+}
+
+.content {
+  background: red;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 32px;
+}
+
+.light {
+  height: 50px;
+  width: 50px;
+  margin: 16px;
+  border: 4px solid white;
+  background: skyblue;
+  border-radius: 50%;
+  z-index: 20;
+}
+
+.indicators {
+  padding-top: 16px;
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  z-index: 20;
+
+  .red {
+    height: 20px;
+    width: 20px;
+    background-color: red;
+    border-radius: 50%;
+  }
+
+  .yellow {
+    height: 20px;
+    width: 20px;
+    background-color: yellow;
+    border-radius: 50%;
+  }
+
+  .green {
+    height: 20px;
+    width: 20px;
+    background-color: green;
+    border-radius: 50%;
+  }
+}

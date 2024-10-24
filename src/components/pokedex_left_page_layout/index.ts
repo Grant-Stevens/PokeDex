@@ -1,0 +1,1 @@
+export { default } from "./pokedex_left_page_layout";

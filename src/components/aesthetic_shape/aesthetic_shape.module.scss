@@ -1,0 +1,52 @@
+.aesthetic {
+  position: absolute;
+  display: flex;
+  flex-direction: row;
+  height: 40px;
+  flex-basis: 100%;
+  bottom: 0;
+  z-index: 10;
+  width: 100%;
+}
+
+.shape1 {
+  flex-grow: 1;
+  z-index: 10;
+}
+
+.shape2 {
+  border-radius: 0 0 100% 0;
+  width: 80px;
+  margin-right: -10px;
+  z-index: 10;
+}
+
+.shape3 {
+  border-radius: 100% 0 0 0;
+  width: 80px;
+  margin-left: -10px;
+  z-index: 10;
+}
+
+.shape4 {
+  flex-grow: 1;
+  z-index: 10;
+}
+
+.shape5 {
+  height: 50%;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  background-color: darkred;
+  z-index: 0;
+}
+
+.shape6 {
+  height: 50%;
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+  background-color: red;
+  z-index: 0;
+}

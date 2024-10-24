@@ -10,6 +10,7 @@ $button-secondary-hover: #f2f2f2;
   align-items: center;
   justify-items: center;
   min-height: 100svh;
+  height: 100vh;
   padding: 80px;
   font-family: var(--font-geist-sans);
 }
@@ -27,19 +28,42 @@ $button-secondary-hover: #f2f2f2;
 
 .main {
   display: grid;
-  grid-template-columns: 50% 50%;
+  grid-template-columns: 45% 10% 45%;
+  border-radius: 20px;
+  overflow: hidden;
   gap: 0;
   height: 800px;
   width: 1000px;
-  background-color: red;
 }
 
-.pokedex--page {
-  border: 1px solid white;
-  height: 100%;
+.screen {
+  background: lighten(gray, 10%);
+  border: 32px solid transparent;
+  border-radius: 16px;
+  width: 100%;
+  flex-grow: 1;
+}
 
-  &:first {
-    border-right-width: 0;
+.nav-buttons {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 48px;
+
+  & img {
+    cursor: pointer;
+    opacity: 0.8;
+
+    &:not(.disabled):hover {
+      opacity: 1;
+      transform: scale(1.1, 1.1);
+      transition: transform 0.3s;
+    }
+  }
+
+  & .disabled {
+    opacity: 0.5;
+    cursor: default;
   }
 }
 
