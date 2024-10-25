@@ -19,7 +19,8 @@ export interface IPokemon {
   id: number;
   name: string;
   height: string;
-  weigth: string;
+  weight: string;
+  abilities: { name: string }[];
   image: string;
   types: TypeString[];
   moves: {
@@ -86,11 +87,17 @@ export const PokemonProvider = ({ ...props }) => {
           name: data.name,
           height: data.height,
           weight: data.weight,
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          abilities: data.abilities.map((ability: any) => ({
+            name: ability.ability.name,
+          })),
           image: data.sprites.other["official-artwork"].front_default,
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
           types: data.types.map((type: any) => type?.type?.name),
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          moves: data.moves.map((move: any) => ({ move: { name: move.name } })),
+          moves: data.moves.map((move: any) => ({
+            move: { name: move.move.name },
+          })),
         });
         setLoading(false);
       })
@@ -98,8 +105,11 @@ export const PokemonProvider = ({ ...props }) => {
   }, [pokemonNum]);
 
   useEffect(() => {
+    console.log("triggered!");
     getPokemon();
   }, [getPokemon, pokemonNum]);
+
+  // console.log("Pokemon:", pokemon);
 
   const value = { pokemon, isLoading, pokemonNum, setPokemonNum };
 

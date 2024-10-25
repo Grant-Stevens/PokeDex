@@ -14,11 +14,14 @@
 }
 
 .id {
+  display: flex;
+  justify-content: center;
   top: 16px;
   font-size: 48px;
   font-weight: bold;
   color: black;
   opacity: 0.8;
+  cursor: pointer;
 }
 
 .name {
@@ -45,4 +48,38 @@
   .type:not(:last-child) {
     border-right: 1px solid gray;
   }
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  justify-content: center;
+  align-items: center;
+}
+
+.input {
+  font-size: 48px;
+  font-weight: bold;
+  color: black;
+  padding: 0 8px;
+  width: auto;
+  max-width: 120px;
+  border: 0 solid transparent;
+  border-radius: 4px;
+  background: whitesmoke;
+  overflow: hidden;
+
+  &:active,
+  &:focus,
+  &:target,
+  &:focus-visible {
+    border: 0;
+    outline: none;
+  }
+}
+
+.error {
+  color: orangered;
+  font-size: 16px;
 }

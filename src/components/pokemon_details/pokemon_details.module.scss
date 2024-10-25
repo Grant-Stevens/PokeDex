@@ -1,0 +1,16 @@
+.details {
+  color: black;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.moveset {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+
+  & > li {
+    margin-left: 32px;
+  }
+}

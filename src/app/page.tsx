@@ -7,6 +7,7 @@ import Hinge from "../components/hinge";
 import styles from "./page.module.scss";
 import Pokemon from "@/components/pokemon/pokemon";
 import { usePokemonContext } from "@/context/pokemonContext";
+import PokemonDetails from "@/components/pokemon_details";
 
 export default function Home() {
   const { pokemonNum, setPokemonNum } = usePokemonContext();
@@ -44,7 +45,9 @@ export default function Home() {
         </LeftPage>
         <Hinge />
         <RightPage>
-          <div className={styles["green-screen"]}></div>
+          <div className={styles["green-screen"]}>
+            <PokemonDetails />
+          </div>
           <div className={styles["fake-button-panel"]}>
             <span></span>
             <span></span>
