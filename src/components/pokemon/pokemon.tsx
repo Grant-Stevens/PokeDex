@@ -5,67 +5,97 @@ import { typeColors, usePokemonContext } from "@/context/pokemonContext";
 import { FormEvent, useEffect, useRef, useState } from "react";
 
 const Pokemon = () => {
-  const { pokemon, isLoading, setPokemonNum } = usePokemonContext();
-  const [showInput, setShowInput] = useState(false);
-  const formRef = useRef<HTMLFormElement | null>(null);
-  const idInputRef = useRef<HTMLInputElement | null>(null);
-  const [error, setError] = useState<{ message: string } | undefined>(
-    undefined
-  );
+  const { pokemon, isLoading, getPokemon } = usePokemonContext();
+  const [showNumInput, setShowNumInput] = useState(false);
+  const [showNameInput, setShowNameInput] = useState(false);
+  const numFormRef = useRef<HTMLFormElement | null>(null);
+  const nameFormRef = useRef<HTMLFormElement | null>(null);
+  const numInputRef = useRef<HTMLInputElement | null>(null);
+  const nameInputRef = useRef<HTMLInputElement | null>(null);
+  const [errors, setErrors] = useState<{ [x: string]: string | undefined }>({
+    num: undefined,
+    name: undefined,
+  });
 
-  function toggleInput() {
-    setShowInput(!showInput);
-    setError(undefined);
+  function toggleNumInput() {
+    setShowNumInput(!showNumInput);
+    setErrors({ ...errors, num: undefined });
   }
 
-  function handleSubmit(event: FormEvent<HTMLFormElement>) {
+  function toggleNameInput() {
+    setShowNameInput(!showNameInput);
+    setErrors({ ...errors, name: undefined });
+  }
+
+  function handleNumSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    const input = Number(idInputRef?.current?.value);
-    console.log("invalid:", isNaN(input));
+    const input = Number(numInputRef?.current?.value);
     if (isNaN(input)) {
-      setError({ message: "Input is not a valid number" });
+      setErrors({ ...errors, num: "Input is not a valid number" });
       return;
     }
     if (1 > input || input > 1205) {
-      setError({ message: "This pokemon doesn't exist" });
+      setErrors({ ...errors, num: "This pokemon doesn't exist" });
       return;
     }
-    console.log("input:", input);
-    setPokemonNum(Number(input));
-    toggleInput();
+    getPokemon(input);
+    toggleNumInput();
+  }
+
+  function handleNameSubmit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    const input = nameInputRef?.current?.value;
+    if (!input) {
+      setErrors({ ...errors, name: "Please enter a name" });
+      return;
+    }
+    getPokemon(input);
+    toggleNameInput();
   }
 
   useEffect(() => {
-    if (showInput) {
-      idInputRef?.current?.focus();
+    if (showNumInput) {
+      numInputRef?.current?.focus();
     }
-  }, [showInput]);
+  }, [showNumInput]);
+
+  useEffect(() => {
+    if (showNameInput) {
+      nameInputRef?.current?.focus();
+    }
+  }, [showNameInput]);
 
   return (
     <div className={styles.pokemon}>
       {isLoading ? (
         <Spinner />
       ) : !pokemon ? (
-        <p>No pokemon data</p>
+        <p>Pokemon not found</p>
       ) : (
         <>
-          {!showInput && (
-            <span className={styles.id} onClick={toggleInput}>
+          {!showNumInput && (
+            <span className={styles.id} onClick={toggleNumInput}>
               #{pokemon.id}
             </span>
           )}
-          {showInput && (
-            <form className={styles.form} ref={formRef} onSubmit={handleSubmit}>
+          {showNumInput && (
+            <form
+              className={styles.form}
+              ref={numFormRef}
+              onSubmit={handleNumSubmit}
+            >
               <span className={styles.id}>
                 #
                 <input
-                  className={styles.input}
+                  className={[styles["num-input"], styles.input].join(" ")}
                   type="text"
-                  ref={idInputRef}
-                  onBlur={toggleInput}
+                  ref={numInputRef}
+                  onBlur={toggleNumInput}
                 />
               </span>
-              {error && <span className={styles.error}>{error.message}</span>}
+              {errors["num"] && (
+                <span className={styles.error}>{errors["num"]}</span>
+              )}
             </form>
           )}
           <Image
@@ -75,7 +105,28 @@ const Pokemon = () => {
             width={300}
             height={300}
           />
-          <span className={styles.name}>{pokemon.name}</span>
+          {!showNameInput && (
+            <span className={styles.name} onClick={toggleNameInput}>
+              {pokemon.name}
+            </span>
+          )}
+          {showNameInput && (
+            <form
+              className={styles.form}
+              ref={nameFormRef}
+              onSubmit={handleNameSubmit}
+            >
+              <input
+                className={[styles["name-input"], styles.input].join(" ")}
+                type="text"
+                ref={nameInputRef}
+                onBlur={toggleNameInput}
+              />
+              {errors["name"] && (
+                <span className={styles.error}>{errors["name"]}</span>
+              )}
+            </form>
+          )}
           <div className={styles.types}>
             {pokemon.types &&
               pokemon.types.map((type) => (

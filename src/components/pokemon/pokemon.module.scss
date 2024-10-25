@@ -11,6 +11,7 @@
   background: white;
   height: 100%;
   border: 2px solid black;
+  color: black;
 }
 
 .id {
@@ -59,12 +60,10 @@
 }
 
 .input {
-  font-size: 48px;
   font-weight: bold;
   color: black;
   padding: 0 8px;
   width: auto;
-  max-width: 120px;
   border: 0 solid transparent;
   border-radius: 4px;
   background: whitesmoke;
@@ -77,6 +76,18 @@
     border: 0;
     outline: none;
   }
+}
+
+.name-input {
+  font-size: 36px;
+  max-width: 300px;
+  margin-bottom: 5px;
+  text-align: center;
+}
+
+.num-input {
+  font-size: 48px;
+  max-width: 120px;
 }
 
 .error {
