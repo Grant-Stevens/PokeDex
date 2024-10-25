@@ -37,8 +37,9 @@ $button-secondary-hover: #f2f2f2;
 }
 
 .screen {
+  position: relative;
   background: lighten(gray, 10%);
-  border: 32px solid transparent;
+  border: 32px solid lighten(gray, 10%);
   border-radius: 16px;
   width: 100%;
   flex-grow: 1;
@@ -64,6 +65,30 @@ $button-secondary-hover: #f2f2f2;
   & .disabled {
     opacity: 0.5;
     cursor: default;
+  }
+}
+
+.green-screen {
+  height: 300px;
+  width: 100%;
+  background: lighten(green, 50%);
+  padding: 16px;
+  border: 8px solid grey;
+  border-radius: 8px;
+}
+
+.fake-button-panel {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-template-rows: 40px 40px 40px;
+  gap: 4px;
+
+  & > span {
+    height: 100%;
+    width: 100%;
+    background: blue;
+    border: 1px solid gray;
+    border-radius: 2px;
   }
 }
 
