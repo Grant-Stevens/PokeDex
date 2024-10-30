@@ -12,8 +12,6 @@ interface IPokemonContext {
   pokemon: IPokemon | undefined;
   isLoading: boolean;
   getPokemon: (id: number | string) => void;
-  pokemonNum: number;
-  setPokemonNum: (id: number) => void;
 }
 
 export interface IPokemon {
@@ -67,64 +65,58 @@ export const usePokemonContext = () => {
 
 export const PokemonProvider = ({ ...props }) => {
   const { children } = props;
-  const [pokemonNum, setPokemonNum] = useState<number>(1);
   const [pokemon, setPokemon] = useState<IPokemon | undefined>();
   const [isLoading, setLoading] = useState<boolean>(true);
 
-  const getPokemon = useCallback(
-    (id: number | string) => {
-      setLoading(true);
-      fetch(
-        `https://pokeapi.co/api/v2/pokemon/${
-          typeof id === "string" ? id.toLocaleLowerCase() : id
-        }`,
-        {
-          method: "GET",
+  const getPokemon = useCallback((id: number | string = 1) => {
+    setLoading(true);
+    fetch(
+      `https://pokeapi.co/api/v2/pokemon/${
+        typeof id === "string" ? id.toLocaleLowerCase() : id
+      }`,
+      {
+        method: "GET",
+      }
+    )
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("failed to fetch data");
         }
-      )
-        .then((response) => {
-          if (!response.ok) {
-            throw new Error("failed to fetch data");
-          }
-          return response.json();
-        })
-        .then((data) => {
-          setPokemon({
-            id: data.id,
-            name: data.name,
-            height: data.height,
-            weight: data.weight,
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            abilities: data.abilities.map((ability: any) => ({
-              name: ability.ability.name,
-            })),
-            image: data.sprites.other["official-artwork"].front_default,
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            types: data.types.map((type: any) => type?.type?.name),
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            moves: data.moves.map((move: any) => ({
-              move: { name: move.move.name },
-            })),
-          });
-          setLoading(false);
-        })
-        .catch((error) => {
-          console.log("ERROR:", error);
-          setPokemon(undefined);
-          setLoading(false);
+        return response.json();
+      })
+      .then((data) => {
+        setPokemon({
+          id: data.id,
+          name: data.name,
+          height: data.height,
+          weight: data.weight,
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          abilities: data.abilities.map((ability: any) => ({
+            name: ability.ability.name,
+          })),
+          image: data.sprites.other["official-artwork"].front_default,
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          types: data.types.map((type: any) => type?.type?.name),
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          moves: data.moves.map((move: any) => ({
+            move: { name: move.move.name },
+          })),
         });
-    },
-    [pokemonNum]
-  );
-
-  useEffect(() => {
-    console.log("triggered!");
-    getPokemon(pokemonNum);
-  }, [getPokemon, pokemonNum]);
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.log("ERROR:", error);
+        setPokemon(undefined);
+        setLoading(false);
+      });
+  }, []);
 
   // console.log("Pokemon:", pokemon);
+  useEffect(() => {
+    getPokemon();
+  }, [getPokemon]);
 
-  const value = { pokemon, isLoading, pokemonNum, setPokemonNum, getPokemon };
+  const value = { pokemon, isLoading, getPokemon };
 
   return (
     <PokemonContext.Provider value={value}>{children}</PokemonContext.Provider>

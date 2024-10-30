@@ -4,17 +4,12 @@ const AestheticShape = ({
   leftColour = "darkred",
   rightColour = "red",
   flip = false,
+  offset = "0px",
 }) => {
   return (
     <div
       className={styles.aesthetic}
-      style={
-        flip
-          ? {
-              transform: "scale(-1, 1)",
-            }
-          : {}
-      }
+      style={{ transform: flip ? "scale(-1, 1)" : "", bottom: offset }}
     >
       <span className={styles.shape1} style={{ background: leftColour }}></span>
       <span className={styles.shape2} style={{ background: leftColour }}></span>

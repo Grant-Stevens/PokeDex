@@ -16,10 +16,11 @@
 
 .id {
   display: flex;
+  gap: 4px;
   justify-content: center;
-  top: 16px;
   font-size: 48px;
   font-weight: bold;
+  width: 100%;
   color: black;
   opacity: 0.8;
   cursor: pointer;
@@ -31,6 +32,8 @@
   font-weight: bold;
   font-size: 32px;
   margin-bottom: 8px;
+  text-align: center;
+  cursor: pointer;
 }
 
 .types {

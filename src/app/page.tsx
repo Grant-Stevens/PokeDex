@@ -10,12 +10,11 @@ import { usePokemonContext } from "@/context/pokemonContext";
 import PokemonDetails from "@/components/pokemon_details";
 
 export default function Home() {
-  const { pokemonNum, setPokemonNum } = usePokemonContext();
+  const { pokemon, getPokemon } = usePokemonContext();
 
   function handleNav(offset: number) {
-    const newSelector = pokemonNum + offset;
-
-    if (newSelector > 0 && newSelector < 1302) setPokemonNum(newSelector);
+    const newSelector = pokemon ? pokemon.id + offset : 1;
+    if (newSelector > 0 && newSelector < 1302) getPokemon(newSelector);
   }
 
   return (
@@ -26,21 +25,29 @@ export default function Home() {
             <Pokemon />
           </div>
           <div className={styles["nav-buttons"]}>
-            <Image
-              className={pokemonNum === 1 ? styles.disabled : undefined}
-              src="/arrow_backward.png"
-              alt={"back"}
-              height={50}
-              width={50}
+            <button
+              className={[
+                pokemon?.id === 1 ? styles.disabled : undefined,
+                styles.button,
+              ].join(" ")}
               onClick={() => handleNav(-1)}
-            />
-            <Image
-              src="/arrow_forward.png"
-              alt={"back"}
-              height={50}
-              width={50}
-              onClick={() => handleNav(1)}
-            />
+              disabled={pokemon?.id === 1}
+            >
+              <Image
+                src={"/arrow_backward.png"}
+                alt={"back"}
+                height={30}
+                width={30}
+              />
+            </button>
+            <button className={styles.button} onClick={() => handleNav(1)}>
+              <Image
+                src="/arrow_forward.png"
+                alt={"back"}
+                height={30}
+                width={30}
+              />
+            </button>
           </div>
         </LeftPage>
         <Hinge />

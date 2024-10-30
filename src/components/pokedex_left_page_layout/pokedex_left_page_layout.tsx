@@ -8,13 +8,18 @@ const LeftPage = ({ ...props }): ReactNode => {
   return (
     <div className={styles.page}>
       <section className={styles.header}>
-        <div className={styles.light}></div>
+        <div className={styles.light} />
         <div className={styles.indicators}>
           <span className={styles.red} />
           <span className={styles.yellow} />
           <span className={styles.green} />
         </div>
         <AestheticShape />
+        {/* <AestheticShape
+          leftColour={"black"}
+          rightColour={"transparent"}
+          offset={"-2px"}
+        /> */}
       </section>
       <section className={styles.content}>{children}</section>
     </div>

@@ -4,7 +4,6 @@
   flex-direction: row;
   height: 40px;
   flex-basis: 100%;
-  bottom: 0;
   z-index: 10;
   width: 100%;
 }
@@ -15,16 +14,16 @@
 }
 
 .shape2 {
-  border-radius: 0 0 100% 0;
+  border-radius: 0 0 100px 0;
   width: 80px;
-  margin-right: -10px;
+  margin-right: -5px;
   z-index: 10;
 }
 
 .shape3 {
-  border-radius: 100% 0 0 0;
+  border-radius: 100px 0 0 0;
   width: 80px;
-  margin-left: -10px;
+  margin-left: -5px;
   z-index: 10;
 }
 

@@ -73,31 +73,28 @@ const Pokemon = () => {
         <p>Pokemon not found</p>
       ) : (
         <>
-          {!showNumInput && (
-            <span className={styles.id} onClick={toggleNumInput}>
-              #{pokemon.id}
-            </span>
-          )}
-          {showNumInput && (
-            <form
-              className={styles.form}
-              ref={numFormRef}
-              onSubmit={handleNumSubmit}
-            >
-              <span className={styles.id}>
-                #
+          <form
+            className={styles.form}
+            ref={numFormRef}
+            onSubmit={handleNumSubmit}
+          >
+            <p className={styles.id} onClick={toggleNumInput}>
+              <span>#</span>
+              {showNumInput ? (
                 <input
+                  ref={numInputRef}
                   className={[styles["num-input"], styles.input].join(" ")}
                   type="text"
-                  ref={numInputRef}
                   onBlur={toggleNumInput}
                 />
-              </span>
-              {errors["num"] && (
-                <span className={styles.error}>{errors["num"]}</span>
+              ) : (
+                <span>{pokemon.id}</span>
               )}
-            </form>
-          )}
+            </p>
+            {errors["num"] && (
+              <span className={styles.error}>{errors["num"]}</span>
+            )}
+          </form>
           <Image
             className={styles.image}
             src={pokemon.image}

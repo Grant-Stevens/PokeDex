@@ -1,6 +1,6 @@
 .hinge {
-  background: red;
-  border: 1px solid darkslategray;
+  background: linear-gradient(to right, darken(red, 20%), lighten(red, 10%));
+  border: 1px solid black;
   border-top: none;
   border-bottom: none;
 }
