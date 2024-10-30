@@ -1,9 +1,11 @@
-import { usePokemonContext } from "@/context/pokemonContext";
+import { typeColors, usePokemonContext } from "@/context/pokemonContext";
 import Spinner from "../spinner";
 import styles from "./pokemon_details.module.scss";
 
 const PokemonDetails = () => {
   const { pokemon, isLoading } = usePokemonContext();
+
+  console.log("DEBUG:", pokemon);
 
   return (
     <div className={styles.details}>
@@ -18,7 +20,17 @@ const PokemonDetails = () => {
             <ul className={styles.moveset}>
               {pokemon.moves &&
                 pokemon.moves.map((move) => (
-                  <li key={move.name}>{move.name}</li>
+                  <li
+                    key={move.name}
+                    style={{
+                      background:
+                        move.type === "normal"
+                          ? "#f5f5f5"
+                          : typeColors[move.type],
+                    }}
+                  >
+                    {move.name}
+                  </li>
                 ))}
             </ul>
           </span>

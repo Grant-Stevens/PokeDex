@@ -8,10 +8,16 @@
 .moveset {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  grid-template-rows: 50px;
+  grid-template-rows: 50px 50px;
   gap: 8px;
 
   & > li {
     list-style: none;
+    text-align: center;
+    align-content: center;
+    border: 2px solid black;
+    border-radius: 4px;
+    height: 100%;
+    width: 100%;
   }
 }

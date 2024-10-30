@@ -17,13 +17,13 @@ interface IPokemonContext {
 }
 
 export interface IPokemon {
-  id: number | undefined;
-  name: string | undefined;
-  height: string | undefined;
-  weight: string | undefined;
-  abilities: Array<{ name: string }> | undefined;
-  image: string | undefined;
-  types: TypeString[] | undefined;
+  id: number;
+  name: string;
+  height: string;
+  weight: string;
+  abilities: Array<{ name: string }>;
+  image: string;
+  types: TypeString[];
   moves: Array<IMove>;
 }
 
@@ -81,11 +81,8 @@ export const PokemonProvider = ({ ...props }) => {
         `https://pokeapi.co/api/v2/pokemon/${
           typeof id === "string" ? id.toLocaleLowerCase() : id
         }`,
-        {
-          method: "GET",
-        }
+        { method: "GET" }
       );
-      console.log("Pokemon response:", pokemonResponse);
 
       const moveset = getRandomMoveset(pokemonResponse.moves);
       const movesResponse = await apiClient.makeMultipleAPICalls(
