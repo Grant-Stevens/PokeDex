@@ -1,7 +1,6 @@
 import { usePokemonContext } from "@/context/pokemonContext";
 import Spinner from "../spinner";
 import styles from "./pokemon_details.module.scss";
-import { getRandomMoveset } from "@/helpers/pokemon";
 
 const PokemonDetails = () => {
   const { pokemon, isLoading } = usePokemonContext();
@@ -17,16 +16,17 @@ const PokemonDetails = () => {
           <span>
             <strong>Moveset:</strong>{" "}
             <ul className={styles.moveset}>
-              {getRandomMoveset(pokemon.moves).map((move) => {
-                return <li key={move}>{move}</li>;
-              })}
+              {pokemon.moves &&
+                pokemon.moves.map((move) => (
+                  <li key={move.name}>{move.name}</li>
+                ))}
             </ul>
           </span>
           <span>
-            <strong>Typical height:</strong> {pokemon.height}&quot;
+            <b>Typical height:</b> {pokemon.height}&quot;
           </span>
           <span>
-            <strong>Typical weight:</strong> {pokemon.height}&quot;
+            <b>Typical weight:</b> {pokemon.height}lb
           </span>
           <span>
             <strong>Abilities:</strong>{" "}

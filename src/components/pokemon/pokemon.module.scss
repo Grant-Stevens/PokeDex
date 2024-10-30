@@ -26,6 +26,20 @@
   cursor: pointer;
 }
 
+.image {
+  position: relative;
+
+  &::after {
+    content: " ";
+    display: block;
+    position: absolute;
+    width: 60%;
+    height: 30px;
+    border-radius: 100%;
+    background: rgba(0, 0, 0, 0.15);
+  }
+}
+
 .name {
   color: var(--background);
   text-transform: capitalize;

@@ -6,11 +6,12 @@
 }
 
 .moveset {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 50px;
+  gap: 8px;
 
   & > li {
-    margin-left: 32px;
+    list-style: none;
   }
 }

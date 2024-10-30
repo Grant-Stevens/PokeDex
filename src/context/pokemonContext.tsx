@@ -1,5 +1,7 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 
+import apiClient from "@/helpers/api_client";
 import {
   createContext,
   useCallback,
@@ -9,24 +11,28 @@ import {
 } from "react";
 
 interface IPokemonContext {
-  pokemon: IPokemon | undefined;
   isLoading: boolean;
+  pokemon: IPokemon | undefined;
   getPokemon: (id: number | string) => void;
 }
 
 export interface IPokemon {
-  id: number;
+  id: number | undefined;
+  name: string | undefined;
+  height: string | undefined;
+  weight: string | undefined;
+  abilities: Array<{ name: string }> | undefined;
+  image: string | undefined;
+  types: TypeString[] | undefined;
+  moves: Array<IMove>;
+}
+
+export interface IMove {
   name: string;
-  height: string;
-  weight: string;
-  abilities: { name: string }[];
-  image: string;
-  types: TypeString[];
-  moves: {
-    move: {
-      name: string;
-    };
-  }[];
+  type: TypeString;
+  power: string;
+  pp: number;
+  damageType: ["physical" | "special" | "status"];
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -68,55 +74,79 @@ export const PokemonProvider = ({ ...props }) => {
   const [pokemon, setPokemon] = useState<IPokemon | undefined>();
   const [isLoading, setLoading] = useState<boolean>(true);
 
-  const getPokemon = useCallback((id: number | string = 1) => {
+  const getPokemon = useCallback(async (id: number | string = 1) => {
     setLoading(true);
-    fetch(
-      `https://pokeapi.co/api/v2/pokemon/${
-        typeof id === "string" ? id.toLocaleLowerCase() : id
-      }`,
-      {
-        method: "GET",
-      }
-    )
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("failed to fetch data");
+    try {
+      const pokemonResponse = await apiClient.makeAPICall(
+        `https://pokeapi.co/api/v2/pokemon/${
+          typeof id === "string" ? id.toLocaleLowerCase() : id
+        }`,
+        {
+          method: "GET",
         }
-        return response.json();
-      })
-      .then((data) => {
-        setPokemon({
-          id: data.id,
-          name: data.name,
-          height: data.height,
-          weight: data.weight,
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          abilities: data.abilities.map((ability: any) => ({
-            name: ability.ability.name,
-          })),
-          image: data.sprites.other["official-artwork"].front_default,
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          types: data.types.map((type: any) => type?.type?.name),
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          moves: data.moves.map((move: any) => ({
-            move: { name: move.move.name },
-          })),
-        });
-        setLoading(false);
-      })
-      .catch((error) => {
-        console.log("ERROR:", error);
-        setPokemon(undefined);
-        setLoading(false);
-      });
+      );
+      console.log("Pokemon response:", pokemonResponse);
+
+      const moveset = getRandomMoveset(pokemonResponse.moves);
+      const movesResponse = await apiClient.makeMultipleAPICalls(
+        moveset.map((move) => ({
+          url: move.url,
+          options: { method: "GET" },
+        }))
+      );
+      const moves = movesResponse.map((move) => ({
+        name: move.name,
+        type: move.type.name,
+        power: move.power,
+        pp: move.pp,
+        damageType: move["damage_class"].name,
+      }));
+
+      const pkmn = {
+        id: pokemonResponse.id,
+        name: pokemonResponse.name,
+        height: pokemonResponse.height,
+        weight: pokemonResponse.weight,
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        abilities: pokemonResponse.abilities.map((ability: any) => ({
+          name: ability.ability.name,
+        })),
+        image: pokemonResponse.sprites.other["official-artwork"].front_default,
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        types: pokemonResponse.types.map((type: any) => type?.type?.name),
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        moves: moves,
+      };
+      setPokemon(pkmn);
+      setLoading(false);
+    } catch (error) {
+      console.log("ERROR:", error);
+      setPokemon(undefined);
+      setLoading(false);
+    }
   }, []);
 
-  // console.log("Pokemon:", pokemon);
+  const getRandomMoveset = useCallback(
+    (moves: Array<{ move: { name: string; url: string } }>) => {
+      const newMoveset: Array<{ name: string; url: string }> = [];
+      for (let i = 0; i < 4; i++) {
+        let newMove;
+        do {
+          newMove = moves[Math.floor(Math.random() * moves.length)].move;
+        } while (newMoveset.includes(newMove));
+        newMoveset.push(newMove);
+      }
+
+      return newMoveset;
+    },
+    []
+  );
+
   useEffect(() => {
     getPokemon();
-  }, [getPokemon]);
+  }, []);
 
-  const value = { pokemon, isLoading, getPokemon };
+  const value = { isLoading, pokemon, getPokemon };
 
   return (
     <PokemonContext.Provider value={value}>{children}</PokemonContext.Provider>
