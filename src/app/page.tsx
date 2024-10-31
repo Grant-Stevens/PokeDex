@@ -4,17 +4,26 @@ import LeftPage from "../components/pokedex_left_page_layout";
 import RightPage from "../components/pokedex_right_page_layout";
 import Image from "next/image";
 import Hinge from "../components/hinge";
-import styles from "./page.module.scss";
 import Pokemon from "@/components/pokemon/pokemon";
 import { usePokemonContext } from "@/context/pokemonContext";
 import PokemonDetails from "@/components/moveset";
 import PokemonStats from "@/components/pokemon_stats";
+import QuestionMarkRoundedIcon from "@mui/icons-material/QuestionMarkRounded";
+import styles from "./page.module.scss";
 
 export default function Home() {
   const { pokemon, getPokemon } = usePokemonContext();
 
   function handleNav(offset: number) {
-    const newSelector = pokemon ? pokemon.id + offset : 1;
+    let newSelector;
+    switch (offset) {
+      case -1:
+      case 1:
+        newSelector = pokemon ? pokemon.id + offset : 1;
+        break;
+      default:
+        newSelector = Math.floor(Math.random() * 1302);
+    }
     if (newSelector > 0 && newSelector < 1302) getPokemon(newSelector);
   }
 
@@ -41,6 +50,9 @@ export default function Home() {
                 width={30}
               />
             </button>
+            <button className={styles.button} onClick={() => handleNav(0)}>
+              <QuestionMarkRoundedIcon style={{ filter: "Invert()" }} />
+            </button>
             <button className={styles.button} onClick={() => handleNav(1)}>
               <Image
                 src="/arrow_forward.png"
@@ -53,11 +65,11 @@ export default function Home() {
         </LeftPage>
         <Hinge />
         <RightPage>
-          <div className={styles["green-screen"]}>
-            <PokemonDetails />
-          </div>
           <div className={styles["stats-screen"]}>
             <PokemonStats />
+          </div>
+          <div className={styles["green-screen"]}>
+            <PokemonDetails />
           </div>
         </RightPage>
       </main>

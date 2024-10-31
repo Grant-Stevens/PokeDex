@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 
@@ -37,9 +38,11 @@ export interface IStat {
 export interface IMove {
   name: string;
   type: TypeString;
-  power: string;
+  power: number;
+  accuracy: number;
   pp: number;
   damageType: ["physical" | "special" | "status"];
+  description: string;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -70,8 +73,8 @@ export const statStrings = {
   hp: "HP",
   attack: "ATK",
   defense: "DEF",
-  "special-attack": "Sp. A",
-  "special-defense": "Sp. D",
+  "special-attack": "SP.AT",
+  "special-defense": "SP.DE",
   speed: "SPD",
 };
 
@@ -92,59 +95,70 @@ export const PokemonProvider = ({ ...props }) => {
   const [pokemon, setPokemon] = useState<IPokemon | undefined>();
   const [isLoading, setLoading] = useState<boolean>(true);
 
-  const getPokemon = useCallback(async (id: number | string = 1) => {
-    setLoading(true);
-    try {
-      const pokemonResponse = await apiClient.makeAPICall(
-        `https://pokeapi.co/api/v2/pokemon/${
-          typeof id === "string" ? id.toLocaleLowerCase() : id
-        }`,
-        { method: "GET" }
-      );
+  const getPokemon = useCallback(
+    async (id: number | string = 1) => {
+      setLoading(true);
+      try {
+        const pokemonResponse = await apiClient.makeAPICall(
+          `https://pokeapi.co/api/v2/pokemon/${
+            typeof id === "string" ? id.toLocaleLowerCase() : id
+          }`,
+          { method: "GET" }
+        );
 
-      const moveset = getRandomMoveset(pokemonResponse.moves);
-      const movesResponse = await apiClient.makeMultipleAPICalls(
-        moveset.map((move) => ({
-          url: move.url,
-          options: { method: "GET" },
-        }))
-      );
-      const moves = movesResponse.map((move) => ({
-        name: move.name,
-        type: move.type.name,
-        power: move.power,
-        pp: move.pp,
-        damageType: move["damage_class"].name,
-      }));
+        const moveset = getRandomMoveset(pokemonResponse.moves);
+        const movesResponse = await apiClient.makeMultipleAPICalls(
+          moveset.map((move) => ({
+            url: move.url,
+            options: { method: "GET" },
+          }))
+        );
+        const moves = movesResponse.map((move) => ({
+          name: move.name,
+          type: move.type.name,
+          power: move.power,
+          accuracy: move.accuracy,
+          pp: move.pp,
+          damageType: move["damage_class"].name,
+          description:
+            move.effect_entries.find(
+              (entry: any) => entry.language?.name === "en"
+            )?.short_effect ??
+            move.flavor_text_entries.find(
+              (entry: any) =>
+                entry.language?.name === "en" &&
+                entry.version_group?.name === "sword-shield"
+            ).flavor_text,
+        }));
 
-      const pkmn = {
-        id: pokemonResponse.id,
-        name: pokemonResponse.name,
-        height: pokemonResponse.height,
-        weight: pokemonResponse.weight,
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        abilities: pokemonResponse.abilities.map((ability: any) => ({
-          name: ability.ability.name,
-        })),
-        image: pokemonResponse.sprites.other["official-artwork"].front_default,
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        types: pokemonResponse.types.map((type: any) => type?.type?.name),
-        moves: moves,
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        stats: pokemonResponse.stats.map((stat: any) => ({
-          name: stat.stat.name,
-          baseValue: stat["base_stat"],
-          effortValue: stat.effort,
-        })),
-      };
-      setPokemon(pkmn);
-      setLoading(false);
-    } catch (error) {
-      console.log("ERROR:", error);
-      setPokemon(undefined);
-      setLoading(false);
-    }
-  }, []);
+        const pkmn = {
+          id: pokemonResponse.id,
+          name: pokemonResponse.name,
+          height: pokemonResponse.height,
+          weight: pokemonResponse.weight,
+          abilities: pokemonResponse.abilities.map((ability: any) => ({
+            name: ability.ability.name,
+          })),
+          image:
+            pokemonResponse.sprites.other["official-artwork"].front_default,
+          types: pokemonResponse.types.map((type: any) => type?.type?.name),
+          moves: moves,
+          stats: pokemonResponse.stats.map((stat: any) => ({
+            name: stat.stat.name,
+            baseValue: stat["base_stat"],
+            effortValue: stat.effort,
+          })),
+        };
+        setPokemon(pkmn);
+        setLoading(false);
+      } catch (error) {
+        console.log("ERROR:", error);
+        setPokemon(undefined);
+        setLoading(false);
+      }
+    },
+    [pokemon]
+  );
 
   const getRandomMoveset = useCallback(
     (moves: Array<{ move: { name: string; url: string } }>) => {

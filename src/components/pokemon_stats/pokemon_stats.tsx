@@ -59,17 +59,21 @@ const PokemonStats = () => {
             );
           })}
       </div>
-      <div className={styles.physical}>
-        <span>{pokemon.height}&quot;</span>
-        <span>{pokemon.height}lb</span>
-      </div>
-      <span>
+      <span className={styles.abilities}>
         <strong>Abilities:</strong>{" "}
         {pokemon.abilities.map((ability, index) => {
           if (index === pokemon.abilities.length - 1) return ability.name;
           return `${ability.name}, `;
         })}
       </span>
+      <div className={styles.physical}>
+        <span>
+          <strong>H:</strong> {pokemon.height}&quot;
+        </span>
+        <span>
+          <strong>W:</strong> {pokemon.height}lb
+        </span>
+      </div>
     </div>
   );
 };
