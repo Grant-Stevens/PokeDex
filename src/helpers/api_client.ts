@@ -9,6 +9,8 @@ async function makeAPICall(url: string, options: RequestInit) {
   if (response.ok) {
     const data = await response.json();
     return data;
+  } else {
+    throw new Error(`Error (status code: ${response.status}): There was an issue fetching this endpoint: ${url}, please make sure the endpoint is available`);
   }
 }
 

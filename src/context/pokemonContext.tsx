@@ -25,6 +25,13 @@ export interface IPokemon {
   image: string;
   types: TypeString[];
   moves: Array<IMove>;
+  stats: Array<IStat>;
+}
+
+export interface IStat {
+  name: StatString;
+  baseValue: number;
+  effortValue: number;
 }
 
 export interface IMove {
@@ -57,7 +64,18 @@ export const typeColors = {
   fairy: "#D685AD",
 };
 
-type TypeString = keyof typeof typeColors;
+export type TypeString = keyof typeof typeColors;
+
+export const statStrings = {
+  hp: "HP",
+  attack: "ATK",
+  defense: "DEF",
+  "special-attack": "Sp. A",
+  "special-defense": "Sp. D",
+  speed: "SPD",
+};
+
+export type StatString = keyof typeof statStrings;
 
 const PokemonContext = createContext<IPokemonContext | undefined>(undefined);
 
@@ -111,8 +129,13 @@ export const PokemonProvider = ({ ...props }) => {
         image: pokemonResponse.sprites.other["official-artwork"].front_default,
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         types: pokemonResponse.types.map((type: any) => type?.type?.name),
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         moves: moves,
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        stats: pokemonResponse.stats.map((stat: any) => ({
+          name: stat.stat.name,
+          baseValue: stat["base_stat"],
+          effortValue: stat.effort,
+        })),
       };
       setPokemon(pkmn);
       setLoading(false);
@@ -144,6 +167,8 @@ export const PokemonProvider = ({ ...props }) => {
   }, []);
 
   const value = { isLoading, pokemon, getPokemon };
+
+  console.log("pokemon:", pokemon);
 
   return (
     <PokemonContext.Provider value={value}>{children}</PokemonContext.Provider>
