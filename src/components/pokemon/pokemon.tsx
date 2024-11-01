@@ -35,7 +35,10 @@ const Pokemon = () => {
       return;
     }
     if (1 > input || input > 1205) {
-      setErrors({ ...errors, num: "This pokemon doesn't exist" });
+      setErrors({
+        ...errors,
+        num: "This pokemon doesn't exist, there are currently 1025 pokemon",
+      });
       return;
     }
     getPokemon(input);
@@ -64,6 +67,8 @@ const Pokemon = () => {
       nameInputRef?.current?.focus();
     }
   }, [showNameInput]);
+
+  console.log("DEBUG:", pokemon);
 
   return (
     <div className={styles.pokemon}>

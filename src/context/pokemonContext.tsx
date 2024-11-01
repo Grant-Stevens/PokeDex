@@ -127,13 +127,15 @@ export const PokemonProvider = ({ ...props }) => {
             move.flavor_text_entries.find(
               (entry: any) =>
                 entry.language?.name === "en" &&
-                entry.version_group?.name === "sword-shield"
-            ).flavor_text,
+                (entry.version_group?.name === "sword-shield" ||
+                  entry.version_group?.name === "black-white")
+            )?.flavor_text ??
+            "No further information",
         }));
 
         const pkmn = {
           id: pokemonResponse.id,
-          name: pokemonResponse.name,
+          name: pokemonResponse.name.split("-")[0],
           height: pokemonResponse.height,
           weight: pokemonResponse.weight,
           abilities: pokemonResponse.abilities.map((ability: any) => ({

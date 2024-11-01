@@ -22,9 +22,9 @@ export default function Home() {
         newSelector = pokemon ? pokemon.id + offset : 1;
         break;
       default:
-        newSelector = Math.floor(Math.random() * 1002);
+        newSelector = Math.floor(Math.random() * 1025);
     }
-    if (newSelector > 0 && newSelector < 1002) getPokemon(newSelector);
+    if (newSelector > 0 && newSelector < 1025) getPokemon(newSelector);
   }
 
   return (
@@ -41,7 +41,7 @@ export default function Home() {
                 styles.button,
               ].join(" ")}
               onClick={() => handleNav(-1)}
-              disabled={pokemon?.id === 1}
+              disabled={pokemon?.id === 1 || pokemon?.id === 1025}
             >
               <Image
                 src={"/arrow_backward.png"}
