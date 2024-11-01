@@ -34,7 +34,7 @@ const Pokemon = () => {
       setErrors({ ...errors, num: "Input is not a valid number" });
       return;
     }
-    if (1 > input || input > 1205) {
+    if (1 > input || input > 1025) {
       setErrors({
         ...errors,
         num: "This pokemon doesn't exist, there are currently 1025 pokemon",
