@@ -24,7 +24,7 @@ export default function Home() {
       default:
         newSelector = Math.floor(Math.random() * 1025);
     }
-    if (newSelector > 0 && newSelector < 1025) getPokemon(newSelector);
+    if (newSelector > 0 && newSelector <= 1025) getPokemon(newSelector);
   }
 
   return (
