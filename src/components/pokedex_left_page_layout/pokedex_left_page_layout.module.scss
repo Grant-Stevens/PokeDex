@@ -5,73 +5,73 @@
 }
 
 .header {
-  position: relative;
   background-color: darkred;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
   gap: 0 8px;
+  position: relative;
   z-index: 0;
 }
 
 .content {
   background: red;
-  flex-grow: 1;
   display: flex;
   flex-direction: column;
+  flex-grow: 1;
   gap: 16px;
   padding: 32px;
 }
 
 .light {
-  position: relative;
-  height: 50px;
-  width: 50px;
-  margin: 16px;
-  border: 4px solid white;
   background: skyblue;
+  border: 4px solid white;
   border-radius: 50%;
+  height: 50px;
+  margin: 16px;
+  position: relative;
+  width: 50px;
   z-index: 20;
 
   &::after {
+    background: linear-gradient(white, transparent);
+    border-radius: 50%;
     content: "";
     display: block;
-    position: absolute;
     height: 20px;
-    width: 20px;
-    background: linear-gradient(white, transparent);
-    opacity: 0.5;
-    border-radius: 50%;
-    top: 2px;
     left: calc(50% - 10px);
+    opacity: 0.5;
+    position: absolute;
+    top: 2px;
+    width: 20px;
   }
 }
 
 .indicators {
-  padding-top: 16px;
   display: flex;
   flex-direction: row;
   gap: 8px;
+  padding-top: 16px;
   z-index: 20;
 
   .red {
-    height: 20px;
-    width: 20px;
     background-color: red;
     border-radius: 50%;
+    height: 20px;
+    width: 20px;
   }
 
   .yellow {
-    height: 20px;
-    width: 20px;
     background-color: yellow;
     border-radius: 50%;
+    height: 20px;
+    width: 20px;
   }
 
   .green {
-    height: 20px;
-    width: 20px;
     background-color: green;
     border-radius: 50%;
+    height: 20px;
+    width: 20px;
   }
 }

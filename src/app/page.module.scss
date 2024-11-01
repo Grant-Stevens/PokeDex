@@ -6,68 +6,68 @@ $button-primary-hover: #383838;
 $button-secondary-hover: #f2f2f2;
 
 .page {
-  display: flex;
   align-items: center;
+  display: flex;
+  font-family: var(--font-geist-sans);
+  height: 100vh;
   justify-content: center;
   min-height: 100svh;
-  height: 100vh;
-  padding: 80px;
-  font-family: var(--font-geist-sans);
+  overflow: auto;
+  padding: 16px;
 }
 
 @media (prefers-color-scheme: dark) {
-  .page {
-    $gray-rgb: rgb(255, 255, 255);
-    $gray-alpha-200: rgba($gray-rgb, 0.145);
-    $gray-alpha-100: rgba($gray-rgb, 0.06);
+  $gray-rgb: rgb(255, 255, 255);
+  $gray-alpha-200: rgba($gray-rgb, 0.145);
+  $gray-alpha-100: rgba($gray-rgb, 0.06);
 
-    $button-primary-hover: #ccc;
-    $button-secondary-hover: #1a1a1a;
-  }
+  $button-primary-hover: #ccc;
+  $button-secondary-hover: #1a1a1a;
 }
 
 .main {
-  display: grid;
-  grid-template-columns: 45% 10% 45%;
   border-radius: 20px;
-  overflow: hidden;
+  display: grid;
   gap: 0;
+  grid-template-columns: 45% 10% 45%;
   height: 800px;
+  min-width: 1000px;
+  overflow: hidden;
   width: 1000px;
 }
 
 .screen {
-  position: relative;
   background: lighten(gray, 10%);
   border: 32px solid lighten(gray, 10%);
   border-radius: 16px;
-  width: 100%;
   flex-grow: 1;
+  position: relative;
+  width: 100%;
 }
 
 .nav-buttons {
   display: flex;
   flex-direction: row;
-  justify-content: center;
   gap: 16px;
+  justify-content: center;
 
   & .button {
-    position: relative;
     background: linear-gradient(
       lighten(lightseagreen, 20%),
       darken(lightseagreen, 20%)
     );
     border: 2px solid white;
     border-radius: 8px;
-    padding: 8px 24px;
     cursor: pointer;
     opacity: 0.9;
+    padding: 8px 24px;
+    position: relative;
     transition: all 0.3s ease-in-out;
 
     &.disabled {
-      opacity: 0.5;
-      cursor: default;
       background: transparent;
+      cursor: default;
+      opacity: 0.5;
     }
 
     &:active {
@@ -86,43 +86,47 @@ $button-secondary-hover: #f2f2f2;
     }
 
     &:not(.disabled)::after {
-      display: block;
-      position: absolute;
-      height: 10px;
-      width: 80%;
-      content: " ";
       background: white;
-      opacity: 0.3;
       border-radius: 5px;
-      top: 4px;
+      content: " ";
+      display: block;
+      height: 10px;
       left: 10%;
+      opacity: 0.3;
+      position: absolute;
+      top: 4px;
+      width: 80%;
     }
   }
 }
 
 .green-screen,
 .stats-screen {
-  flex-shrink: 1;
   background: white;
-  min-height: 300px;
-  width: 100%;
-  padding: 16px;
   border: 8px solid grey;
   border-radius: 8px;
-  color: black;
   box-shadow: -2px 2px 0px 0px darken(grey, 40%);
+  color: black;
+  flex-shrink: 1;
+  min-height: 300px;
+  padding: 16px;
+  width: 100%;
 }
 
 .green-screen {
-  flex-grow: 1;
   background: lighten(green, 65%);
+  flex-grow: 1;
 }
 
 /* Enable hover only on non-touch devices */
 @media (hover: hover) and (pointer: fine) {
 }
 
-@media (max-width: 600px) {
+@media (max-width: 1000px) {
+  .page {
+    justify-content: start;
+    padding: 16px;
+  }
 }
 
 @media (prefers-color-scheme: dark) {

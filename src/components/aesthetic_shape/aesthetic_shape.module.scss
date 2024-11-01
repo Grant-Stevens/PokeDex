@@ -1,11 +1,11 @@
 .aesthetic {
-  position: absolute;
   display: flex;
+  flex-basis: 100%;
   flex-direction: row;
   height: 40px;
-  flex-basis: 100%;
-  z-index: 10;
+  position: absolute;
   width: 100%;
+  z-index: 10;
 }
 
 .shape1 {
@@ -15,15 +15,15 @@
 
 .shape2 {
   border-radius: 0 0 100px 0;
-  width: 80px;
   margin-right: -5px;
+  width: 80px;
   z-index: 10;
 }
 
 .shape3 {
   border-radius: 100px 0 0 0;
-  width: 80px;
   margin-left: -5px;
+  width: 80px;
   z-index: 10;
 }
 
@@ -33,19 +33,19 @@
 }
 
 .shape5 {
+  background-color: darkred;
   height: 50%;
-  width: 100%;
   position: absolute;
   top: 0;
-  background-color: darkred;
+  width: 100%;
   z-index: 0;
 }
 
 .shape6 {
-  height: 50%;
-  width: 100%;
-  position: absolute;
-  bottom: 0;
   background-color: red;
+  bottom: 0;
+  height: 50%;
+  position: absolute;
+  width: 100%;
   z-index: 0;
 }

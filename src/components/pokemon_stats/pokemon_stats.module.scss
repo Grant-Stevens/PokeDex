@@ -5,27 +5,27 @@
 }
 
 .bar-chart {
-  width: 100%;
   display: flex;
   flex-direction: column;
+  width: 100%;
 }
 
 .stat {
-  display: grid;
-  grid-template-columns: 15% 1fr auto;
-  gap: 8px;
   align-items: center;
+  display: grid;
+  gap: 8px;
+  grid-template-columns: 15% 1fr auto;
 }
 
 .title {
-  font-weight: bold;
-  text-align: right;
-  padding: 4px 8px 4px 0;
-  display: flex;
   align-items: center;
-  justify-content: end;
   border: 1px solid transparent;
   border-right-color: gray;
+  display: flex;
+  font-weight: bold;
+  justify-content: end;
+  padding: 4px 8px 4px 0;
+  text-align: right;
 }
 
 .bar {
@@ -59,9 +59,9 @@
 }
 
 .value {
+  align-items: center;
   display: flex;
   gap: 4px;
-  align-items: center;
 }
 
 .physical {
