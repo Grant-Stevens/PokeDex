@@ -22,9 +22,9 @@ export default function Home() {
         newSelector = pokemon ? pokemon.id + offset : 1;
         break;
       default:
-        newSelector = Math.floor(Math.random() * 1302);
+        newSelector = Math.floor(Math.random() * 1002);
     }
-    if (newSelector > 0 && newSelector < 1302) getPokemon(newSelector);
+    if (newSelector > 0 && newSelector < 1002) getPokemon(newSelector);
   }
 
   return (
