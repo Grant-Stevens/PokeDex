@@ -41,7 +41,7 @@ export default function Home() {
                 styles.button,
               ].join(" ")}
               onClick={() => handleNav(-1)}
-              disabled={pokemon?.id === 1 || pokemon?.id === 1025}
+              disabled={pokemon?.id === 1}
             >
               <Image
                 src={"/arrow_backward.png"}
@@ -53,7 +53,14 @@ export default function Home() {
             <button className={styles.button} onClick={() => handleNav(0)}>
               <QuestionMarkRoundedIcon style={{ filter: "Invert()" }} />
             </button>
-            <button className={styles.button} onClick={() => handleNav(1)}>
+            <button
+              className={[
+                pokemon?.id === 1025 ? styles.disabled : undefined,
+                styles.button,
+              ].join(" ")}
+              onClick={() => handleNav(1)}
+              disabled={pokemon?.id === 1025}
+            >
               <Image
                 src="/arrow_forward.png"
                 alt={"back"}
